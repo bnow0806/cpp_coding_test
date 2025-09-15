@@ -1,34 +1,36 @@
 #include <string>
 #include <vector>
+#include "Header.h"
 #include <unordered_map>
 #include <iostream>
 
 using namespace std;
 
 string solution(vector<string> participant, vector<string> completion) {
-    unordered_map<string, int> counter;
-    // Count each participant
-    for (const auto &name : participant) {
-        ++counter[name];
+    string answer = "";
+    unordered_map<string, int> um;
+
+    for (auto part : participant) {
+        um[part] += 1;
     }
-    // Subtract for each completion
-    for (const auto &name : completion) {
-        --counter[name];
+
+    for (auto comp : completion) {
+        um[comp] -=1;
     }
-    // Find the participant who didn't complete
-    for (const auto &kv : counter) {
-        if (kv.second > 0) {
-            return kv.first;
+
+    for (auto& u : um) {
+        if (u.second > 0) {
+            answer = u.first;
         }
     }
-    return ""; // Fallback (should not reach here for valid inputs)
+
+    return answer;
 }
 
-int main() {
-    vector<string> participant = {"leo", "kiki", "eden"};
-    vector<string> completion = {"eden", "kiki"};
+void main_solution() {
+    vector<string> participant = {"mislav", "stanko", "mislav", "ana"};
+    vector<string> completion = {"stanko", "ana", "mislav"};
 
-    cout << solution(participant, completion) << endl; // Expected output: leo
-    return 0;
+    solution(participant, completion);
 }
 
